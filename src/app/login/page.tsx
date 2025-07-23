@@ -1,3 +1,4 @@
+import AuthForm from "@/components/auth-form";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 function LoginPage() {
@@ -7,6 +8,7 @@ function LoginPage() {
         <CardHeader>
           <CardTitle className="text-center text-3xl">Login</CardTitle>
         </CardHeader>
+        <AuthForm type="login" />
       </Card>
     </div>
   );

@@ -4,9 +4,10 @@ import Image from "next/image";
 import { shadow } from "@/app/styles/utils";
 import { Button } from "./ui/button";
 import DarkModeToggle from "./dark-mode-toggle";
+import LogoutButton from "./logout-button";
 
 function Header() {
-  const user = null;
+  const user = 1;
 
   return (
     <header
@@ -22,12 +23,12 @@ function Header() {
           className="rounded-full"
         />
         <h1 className="flex flex-col pb-1 text-2xl leading-6 font-semibold">
-          GOTIUS <span>Notes</span>
+          GOATIUS <span>Notes</span>
         </h1>
       </Link>
       <div className="flex gap-4">
         {user ? (
-          "Logout"
+          <LogoutButton />
         ) : (
           <>
             <Button asChild>

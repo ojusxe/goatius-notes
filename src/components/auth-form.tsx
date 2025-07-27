@@ -23,7 +23,39 @@ function AuthForm({ type }: Props) {
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (formData: FormData) => {
-    console.log("form submitted");
+    startTransition(async () => {
+      const email = formData.get("email") as string;
+      const password = formData.get("password") as string;
+
+      let errorMessage;
+      let title;
+      let description;
+
+      if (isLoginForm) {
+        errorMessage = (await loginAction(email, password)).errorMessage;
+        title = "Logged in";
+        description = "Welcome back, you GOAT!";
+      } else {
+        errorMessage = (await signUpAction(email, password)).errorMessage;
+        title = "Signed Up";
+        description = "Welcome to the GOAT community! Check your email to verify your account.";
+      }
+
+      if(!errorMessage) {
+        toast({
+          title,
+          description,
+          variant: "success",
+        });
+        router.replace("/");
+      } else {
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        })
+      }
+    });
   };
   return (
     <form action={handleSubmit}>
@@ -63,7 +95,10 @@ function AuthForm({ type }: Props) {
           {isLoginForm
             ? "Don't have an account yet?"
             : "Already have an account?"}{" "}
-          <Link href={isLoginForm ? "/sign-up" : "/login"} className={`text-blue-500 hover:underline ${isPending ? "pointer-events-none opacity-50" : ""}`}>
+          <Link
+            href={isLoginForm ? "/sign-up" : "/login"}
+            className={`text-blue-500 hover:underline ${isPending ? "pointer-events-none opacity-50" : ""}`}
+          >
             <Button variant="link" className="p-0">
               {isLoginForm ? "Sign Up" : "Login"}
             </Button>

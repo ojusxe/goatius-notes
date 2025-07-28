@@ -4,6 +4,8 @@ import "./styles/globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/header";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -42,14 +44,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          
+          <SidebarProvider>
+            <AppSidebar />
           <div className="flex min-h-screen w-full flex-col transition-colors duration-300">
             <Header />
             <main className="flex flex-1 flex-col px-4 pt-10 xl:px-8 transition-all duration-300">
               {children}
             </main>
           </div>
-          
+          </SidebarProvider>
           <Toaster />
         </ThemeProvider>
       </body>

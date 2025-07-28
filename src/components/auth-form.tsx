@@ -9,6 +9,7 @@ import { useTransition } from "react";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { loginAction, signUpAction } from "@/actions/users";
 
 type Props = {
   type: "login" | "sign-up";
@@ -58,7 +59,7 @@ function AuthForm({ type }: Props) {
     });
   };
   return (
-    <form action={handleSubmit}>
+    <form action={handleSubmit} className="flex flex-col gap-8">
       <CardContent className="grid w-full items-center gap-4">
         <div className="flex flex-col space-y-2">
           <Label htmlFor="email">Email</Label>

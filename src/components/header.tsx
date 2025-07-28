@@ -4,31 +4,29 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import DarkModeToggle from "./dark-mode-toggle";
 import LogoutButton from "./logout-button";
+import { getUser } from "@/auth/server";
 
-function Header() {
-  const user = 1;
+async function Header() {
+  const user = await getUser();
 
   return (
-    <header className="bg-card/80 backdrop-blur-md border-b border-border/50 sticky top-0 z-50 w-full animate-slide-down">
+    <header className="bg-card/80 border-border/50 animate-slide-down sticky top-0 z-50 w-full border-b backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link 
-          href="/" 
-          className="flex items-center gap-3 hover-lift group"
-        >
+        <Link href="/" className="hover-lift group flex items-center gap-3">
           <div className="relative">
             <Image
               src="/gotius.png"
               alt="Gotius Logo"
               width={40}
               height={40}
-              className="rounded-full shadow-glow transition-all duration-300 group-hover:shadow-elegant"
+              className="shadow-glow group-hover:shadow-elegant rounded-full transition-all duration-300"
             />
           </div>
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold tracking-tight text-gradient group-hover:scale-105 transition-transform duration-200">
+            <h1 className="text-gradient text-xl font-bold tracking-tight transition-transform duration-200 group-hover:scale-105">
               GOATIUS
             </h1>
-            <span className="text-xs text-muted-foreground font-medium -mt-1">
+            <span className="text-muted-foreground -mt-1 text-xs font-medium">
               Notes
             </span>
           </div>
@@ -41,7 +39,11 @@ function Header() {
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <Button asChild variant="ghost" className="hidden sm:flex hover-lift">
+              <Button
+                asChild
+                variant="ghost"
+                className="hover-lift hidden sm:flex"
+              >
                 <Link href="/sign-up">Sign Up</Link>
               </Button>
               <Button asChild className="btn-hover hover-lift shadow-glow">

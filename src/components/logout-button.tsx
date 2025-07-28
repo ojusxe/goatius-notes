@@ -17,7 +17,7 @@ function LogoutButton() {
     await new Promise ((resolve) => setTimeout(resolve, 2000))
 
     // const errorMessage = "Error logging out bruv";
-    const errorMessage = null; // Simulating no error for successful logout
+    const errorMessage = null;
     if (!errorMessage) {
       toast ({
         title: "Logged Out",

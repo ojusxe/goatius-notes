@@ -12,7 +12,7 @@ async function Header() {
   return (
     <header className="bg-card/80 border-border/50 animate-slide-down sticky top-0 z-50 w-full border-b backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="hover-lift group flex items-center gap-3">
+        <Link href="/" className="group flex items-center gap-3">
           <div className="relative">
             <Image
               src="/gotius.png"
@@ -23,7 +23,7 @@ async function Header() {
             />
           </div>
           <div className="flex flex-col">
-            <h1 className="text-gradient text-xl font-bold tracking-tight transition-transform duration-200 group-hover:scale-105">
+            <h1 className="text-gradient text-xl font-bold tracking-tight">
               GOATIUS
             </h1>
             <span className="text-muted-foreground -mt-1 text-xs font-medium">

@@ -31,6 +31,7 @@ export async function createClient() {
 }
 
 export async function getUser() { 
-  const {auth} = await createClient();
-
+  const client = await createClient();
+  const { data: { user } } = await client.auth.getUser();
+  return user;
 }

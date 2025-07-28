@@ -5,32 +5,33 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { logOutAction } from "@/actions/users";
 
 function LogoutButton() {
-  const {toast} = useToast();
+  const { toast } = useToast();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
     setLoading(true);
-    await new Promise ((resolve) => setTimeout(resolve, 2000))
+
+    const { errorMessage } = await logOutAction();
 
     // const errorMessage = "Error logging out bruv";
-    const errorMessage = null;
     if (!errorMessage) {
-      toast ({
+      toast({
         title: "Logged Out",
         description: "You have been successfully logged out.",
         variant: "success",
       });
-      router.push("/")
+      router.push("/");
     } else {
-      toast ({
+      toast({
         title: "Error",
         description: errorMessage,
         variant: "destructive",
-      })
+      });
     }
     setLoading(false);
   };

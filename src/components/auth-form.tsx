@@ -61,7 +61,7 @@ function AuthForm({ type }: Props) {
   return (
     <form action={handleSubmit} className="flex flex-col gap-8">
       <CardContent className="grid w-full items-center gap-4">
-        <div className="flex flex-col space-y-2">
+        <div className="space-y-3">
           <Label htmlFor="email">Email</Label>
           <Input
             type="email"
@@ -82,7 +82,7 @@ function AuthForm({ type }: Props) {
           />
         </div>
       </CardContent>
-      <CardFooter className="mt-4 flex flex-col justify-end gap-6">
+      <CardFooter className="mt-2 flex flex-col justify-end gap-2">
         <Button className="w-full">
           {isPending ? (
             <Loader2 className="animate-spin" />

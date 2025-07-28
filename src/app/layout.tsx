@@ -42,12 +42,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
+          
           <div className="flex min-h-screen w-full flex-col transition-colors duration-300">
             <Header />
             <main className="flex flex-1 flex-col px-4 pt-10 xl:px-8 transition-all duration-300">
               {children}
             </main>
           </div>
+          
           <Toaster />
         </ThemeProvider>
       </body>

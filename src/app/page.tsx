@@ -1,8 +1,8 @@
 import { getUser } from "@/auth/server";
-import AskAIButton from "@/components/AskAIButton";
-import NewNoteButton from "@/components/NewNoteButton";
-import NoteTextInput from "@/components/NoteTextInput";
-import HomeToast from "@/components/HomeToast";
+import AskAIButton from "@/components/ask-ai-button";
+import NewNoteButton from "@/components/new-note-button";
+import NoteTextInput from "@/components/note-text-input";
+
 import { prisma } from "@/db/prisma";
 
 type Props = {
@@ -30,7 +30,7 @@ async function HomePage({ searchParams }: Props) {
 
       <NoteTextInput noteId={noteId} startingNoteText={note?.text || ""} />
 
-      <HomeToast />
+      {/* <HomeToast /> */}
     </div>
   );
 }

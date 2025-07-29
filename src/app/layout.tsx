@@ -4,7 +4,7 @@ import "./styles/globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/header";
-import { AppSidebar } from "@/components/app-sidebar";
+import  AppSidebar  from "@/components/app-sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
 const inter = Inter({

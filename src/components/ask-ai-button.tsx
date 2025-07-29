@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { Textarea } from "./ui/textarea";
 import { ArrowUpIcon } from "lucide-react";
 import { askAIAboutNotesAction } from "@/actions/notes";
-import "@/styles/ai-response.css";
+import "../app/styles/ai-response.css";
 
 type Props = {
   user: User | null;

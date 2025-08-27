@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { Textarea } from "./ui/textarea";
 import { ArrowUpIcon } from "lucide-react";
 import { askAIAboutNotesAction } from "@/actions/notes";
+import { getGuestNotes } from "@/utils/guestNotes";
 import "../app/styles/ai-response.css";
 
 type Props = {
@@ -32,16 +33,13 @@ function AskAIButton({ user }: Props) {
   const [responses, setResponses] = useState<string[]>([]);
 
   const handleOnOpenChange = (isOpen: boolean) => {
-    if (!user) {
-      router.push("/login");
-    } else {
-      if (isOpen) {
-        setQuestionText("");
-        setQuestions([]);
-        setResponses([]);
-      }
-      setOpen(isOpen);
+    // Allow guests to use AI
+    if (isOpen) {
+      setQuestionText("");
+      setQuestions([]);
+      setResponses([]);
     }
+    setOpen(isOpen);
   };
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -68,9 +66,34 @@ function AskAIButton({ user }: Props) {
     setTimeout(scrollToBottom, 100);
 
     startTransition(async () => {
-      const response = await askAIAboutNotesAction(newQuestions, responses);
+      let response;
+      if (user) {
+        response = await askAIAboutNotesAction(newQuestions, responses);
+      } else {
+        // Guest: use notes from localStorage
+        const guestNotes = getGuestNotes();
+        // Format notes for prompt
+        const formattedNotes = guestNotes
+          .map((note) => `Text: ${note.text}\nCreated at: ${note.createdAt}\nLast updated: ${note.updatedAt}`)
+          .join("\n");
+        // Use Gemini API directly (or a helper)
+        // You may want to refactor this to a shared util
+        const prompt = `You are a helpful assistant that answers questions about a user's notes.\nAssume all questions are related to the user's notes.\nMake sure that your answers are not too verbose and you speak succinctly.\nYour responses MUST be formatted in clean, valid HTML with proper structure.\nUse tags like <p>, <strong>, <em>, <ul>, <ol>, <li>, <h1> to <h6>, and <br> when appropriate.\nDo NOT wrap the entire response in a single <p> tag unless it's a single paragraph.\nAvoid inline styles, JavaScript, or custom attributes.\nRendered like this in JSX:\n<p dangerouslySetInnerHTML={{ __html: YOUR_RESPONSE }} />\nHere are the user's notes:\n${formattedNotes}`;
+        let conversation = prompt;
+        for (let i = 0; i < newQuestions.length; i++) {
+          conversation += `\nUser: ${newQuestions[i]}\n`;
+          if (responses.length > i) {
+            conversation += `Assistant: ${responses[i]}\n`;
+          }
+        }
+        // Gemini API call (pseudo-code, replace with your actual Gemini call)
+        // const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+        // const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        // const result = await model.generateContent(conversation);
+        // response = result.response.text();
+        response = "[Guest AI response would go here]";
+      }
       setResponses((prev) => [...prev, response]);
-
       setTimeout(scrollToBottom, 100);
     });
   };

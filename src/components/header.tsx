@@ -7,7 +7,11 @@ import LogoutButton from "./logout-button";
 import { getUser } from "@/auth/server";
 
 async function Header() {
-  const user = await getUser();
+  let user = await getUser();
+  let isGuest = false;
+  if (typeof window !== "undefined") {
+    isGuest = localStorage.getItem("guest_mode") === "true";
+  }
 
   return (
     <header className="bg-card/80 border-border/50 animate-slide-down sticky top-0 z-50 w-full border-b backdrop-blur-md">
@@ -33,9 +37,21 @@ async function Header() {
         </Link>
 
         <nav className="flex items-center gap-3">
-          {user ? (
+          {(user || isGuest) ? (
             <div className="flex items-center gap-3">
-              <LogoutButton />
+              {isGuest ? (
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    localStorage.removeItem("guest_mode");
+                    window.location.replace("/login");
+                  }}
+                >
+                  Logout Guest
+                </Button>
+              ) : (
+                <LogoutButton />
+              )}
             </div>
           ) : (
             <div className="flex items-center gap-2">

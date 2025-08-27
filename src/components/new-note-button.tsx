@@ -18,15 +18,25 @@ function NewNoteButton({ user }: Props) {
   const [loading, setLoading] = useState(false);
 
   const handleClickNewNoteButton = async () => {
-    if (!user) {
+    const isGuest = typeof window !== "undefined" && localStorage.getItem("guest_mode") === "true";
+    if (!user && !isGuest) {
       router.push("/login");
+    } else if (isGuest) {
+      setLoading(true);
+      const uuid = uuidv4();
+      const now = new Date().toISOString();
+      const note = { id: uuid, text: "", createdAt: now, updatedAt: now };
+      // @ts-ignore
+      import("@/utils/guestNotes").then(({ addGuestNote }) => {
+        addGuestNote(note);
+        router.push(`/?noteId=${uuid}&toastType=newNote`);
+        setLoading(false);
+      });
     } else {
       setLoading(true);
-
       const uuid = uuidv4();
       await createNoteAction(uuid);
       router.push(`/?noteId=${uuid}&toastType=newNote`);
-
       setLoading(false);
     }
   };

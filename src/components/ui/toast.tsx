@@ -7,5 +7,9 @@ export const ToastTitle = () => null;
 export const ToastDescription = () => null;
 export const ToastAction = () => null;
 
-export type ToastProps = {};
+export type ToastProps = {
+  variant?: "success" | "destructive" | "default";
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+};
 export type ToastActionElement = React.ReactElement;

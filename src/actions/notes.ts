@@ -116,3 +116,46 @@ export const askAIAboutNotesAction = async (
 
   return response || "A problem has occurred";
 };
+
+export const createNewNoteAction = async () => {
+  try {
+    const user = await getUser();
+    if (!user) throw new Error("You must be logged in to create a note");
+
+    const newNoteId = crypto.randomUUID();
+    
+    await prisma.note.create({
+      data: {
+        id: newNoteId,
+        authorId: user.id,
+        text: "",
+      },
+    });
+
+    return { noteId: newNoteId, errorMessage: null };
+  } catch (error) {
+    return { noteId: null, ...handleError(error) };
+  }
+};
+
+export const getAllNotesAction = async () => {
+  try {
+    const user = await getUser();
+    if (!user) throw new Error("You must be logged in to view notes");
+
+    const notes = await prisma.note.findMany({
+      where: { authorId: user.id },
+      orderBy: { updatedAt: 'desc' },
+      select: {
+        id: true,
+        text: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return { notes, errorMessage: null };
+  } catch (error) {
+    return { notes: [], ...handleError(error) };
+  }
+};

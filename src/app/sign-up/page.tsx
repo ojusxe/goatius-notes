@@ -1,6 +1,6 @@
 "use client";
 import AuthForm from "@/components/auth-form";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/custom";
 
 function SignUpPage() {
   const handleGuest = () => {
@@ -9,20 +9,34 @@ function SignUpPage() {
       window.location.replace("/");
     }
   };
+  
   return (
-    <div className="mt-20 flex flex-1 flex-col items-center">
-      <Card className="w-full max-w-md py-12">
-        <CardHeader>
-          <CardTitle className="text-center text-3xl">Sign Up</CardTitle>
-        </CardHeader>
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-surface-elevated">
+      <div className="w-full max-w-md space-y-6">
+        {/* Header */}
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-primary font-display">
+            Join Goatius
+          </h1>
+          <p className="mt-2 text-secondary font-body">
+            Create your account and start taking notes
+          </p>
+        </div>
+
+        {/* Auth Form */}
         <AuthForm type="sign-up" />
-        <button
-          className="mt-6 w-full rounded bg-muted px-4 py-2 text-muted-foreground hover:bg-muted/80 transition"
-          onClick={handleGuest}
-        >
-          Use as Guest
-        </button>
-      </Card>
+
+        {/* Guest Option */}
+        <div className="text-center">
+          <Button
+            variant="ghost"
+            onClick={handleGuest}
+            className="w-full"
+          >
+            Continue as Guest
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

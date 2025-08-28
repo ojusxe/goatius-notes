@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@supabase/supabase-js";
-import { Button } from "./ui/button";
+import { Button } from "@/components/custom";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -48,7 +48,7 @@ function NewNoteButton({ user }: Props) {
       className="w-24"
       disabled={loading}
     >
-      {loading ? <Loader2 className="animate-spin" /> : "New Note"}
+      {loading ? <Loader2 className="animate-pulse" size={16} /> : "New Note"}
     </Button>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/custom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
@@ -18,7 +18,6 @@ function LogoutButton() {
 
     const { errorMessage } = await logOutAction();
 
-    // const errorMessage = "Error logging out bruv";
     if (!errorMessage) {
       toast({
         title: "Logged Out",
@@ -43,7 +42,7 @@ function LogoutButton() {
       disabled={loading}
       className="w-24"
     >
-      {loading ? <Loader2 className="animate-spin" /> : "Log Out"}
+      {loading ? <Loader2 className="animate-pulse" size={16} /> : "Log Out"}
     </Button>
   );
 }

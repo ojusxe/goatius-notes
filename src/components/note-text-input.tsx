@@ -1,9 +1,7 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { Textarea } from "./ui/textarea";
-import { ChangeEvent, useEffect } from "react";
-import useNote from "@/hooks/use-note";
+import { Textarea } from "@/components/custom";
+import { ChangeEvent, useState, useEffect } from "react";
 import { updateNoteAction } from "@/actions/notes";
 
 type Props = {
@@ -14,33 +12,45 @@ type Props = {
 let updateTimeout: NodeJS.Timeout;
 
 function NoteTextInput({ noteId, startingNoteText }: Props) {
-  const noteIdParam = useSearchParams().get("noteId") || "";
-  const { noteText, setNoteText } = useNote();
+  const [noteText, setNoteText] = useState(startingNoteText);
 
+  // Update when props change (e.g., switching notes)
   useEffect(() => {
-    if (noteIdParam === noteId) {
-      setNoteText(startingNoteText);
-    }
-  }, [startingNoteText, noteIdParam, noteId, setNoteText]);
+    setNoteText(startingNoteText);
+  }, [startingNoteText]);
 
   const handleUpdateNote = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const text = e.target.value;
-
     setNoteText(text);
 
+    // Debounce the save operation
     clearTimeout(updateTimeout);
     updateTimeout = setTimeout(() => {
-      updateNoteAction(noteId, text);
-    }, 1500);
+      if (noteId && noteId.trim() !== "") {
+        updateNoteAction(noteId, text);
+      }
+    }, 1000);
   };
 
   return (
-    <Textarea
-      value={noteText}
-      onChange={handleUpdateNote}
-      placeholder="Type your notes here.."
-      className="custom-scrollbar mb-4 h-full max-w-4xl resize-none border p-4 placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
-    />
+    <div className="w-full max-w-4xl mx-auto">
+      <Textarea
+        value={noteText}
+        onChange={handleUpdateNote}
+        placeholder="Type your notes here..."
+        className="
+          h-[calc(100vh-200px)] min-h-[400px] resize-none 
+          border-0 text-base leading-relaxed shadow-sm 
+          bg-[var(--surface)] text-[var(--text-primary)]
+          focus:ring-2 focus:ring-[var(--primary)]
+        "
+        style={{
+          fontFamily: 'var(--font-inter)',
+          fontSize: '16px',
+          lineHeight: '1.6'
+        }}
+      />
+    </div>
   );
 }
 

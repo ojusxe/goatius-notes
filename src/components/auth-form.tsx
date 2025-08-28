@@ -2,11 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { CardContent, CardFooter } from "./ui/card";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
+import { Card, CardContent, Input, Button } from "@/components/custom";
 import { useTransition } from "react";
-import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { loginAction, signUpAction } from "@/actions/users";
@@ -58,55 +55,63 @@ function AuthForm({ type }: Props) {
       }
     });
   };
+
   return (
-    <form action={handleSubmit} className="flex flex-col gap-8">
-      <CardContent className="grid w-full items-center gap-4">
-        <div className="space-y-3">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            type="email"
-            id="email"
-            name="email"
-            required
-            placeholder="Enter your email bruv"
+    <Card variant="elevated" className="w-full max-w-md mx-auto">
+      <form action={handleSubmit} className="flex flex-col gap-6">
+        <CardContent>
+          <div className="space-y-4">
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              required
+              label="Email"
+              placeholder="Enter your email"
+              disabled={isPending}
+            />
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              required
+              label="Password"
+              placeholder="Enter your password"
+              disabled={isPending}
+            />
+          </div>
+        </CardContent>
+        
+        <div className="px-6 pb-6 flex flex-col gap-4">
+          <Button 
+            type="submit" 
+            variant="primary" 
+            className="w-full"
             disabled={isPending}
-          />
-          <Label htmlFor="password">Password</Label>
-          <Input
-            type="password"
-            id="password"
-            name="password"
-            required
-            placeholder="Enter your password bruv"
-            disabled={isPending}
-          />
-        </div>
-      </CardContent>
-      <CardFooter className="mt-2 flex flex-col justify-end gap-2">
-        <Button className="w-full">
-          {isPending ? (
-            <Loader2 className="animate-spin" />
-          ) : isLoginForm ? (
-            "Login"
-          ) : (
-            "Sign Up"
-          )}
-        </Button>
-        <p>
-          {isLoginForm
-            ? "Don't have an account yet?"
-            : "Already have an account?"}{" "}
-          <Link
-            href={isLoginForm ? "/sign-up" : "/login"}
-            className={`text-blue-500 hover:underline ${isPending ? "pointer-events-none opacity-50" : ""}`}
           >
-            <Button variant="link" className="p-0">
+            {isPending ? (
+              <Loader2 className="animate-pulse" size={16} />
+            ) : isLoginForm ? (
+              "Login"
+            ) : (
+              "Sign Up"
+            )}
+          </Button>
+          
+          <p className="text-center text-secondary text-sm font-body">
+            {isLoginForm
+              ? "Don't have an account yet?"
+              : "Already have an account?"}{" "}
+            <Link
+              href={isLoginForm ? "/sign-up" : "/login"}
+              className={`text-link hover:text-link-hover transition-smooth font-medium ${isPending ? "pointer-events-none opacity-50" : ""}`}
+            >
               {isLoginForm ? "Sign Up" : "Login"}
-            </Button>
-          </Link>
-        </p>
-      </CardFooter>
-    </form>
+            </Link>
+          </p>
+        </div>
+      </form>
+    </Card>
   );
 }
 

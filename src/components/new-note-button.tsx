@@ -25,7 +25,7 @@ function NewNoteButton({ user }: Props) {
       setLoading(true);
       const uuid = uuidv4();
       const now = new Date().toISOString();
-      const note = { id: uuid, text: "", createdAt: now, updatedAt: now };
+      const note = { id: uuid, title: "", text: "", createdAt: now, updatedAt: now };
       // @ts-ignore
       import("@/utils/guestNotes").then(({ addGuestNote }) => {
         addGuestNote(note);

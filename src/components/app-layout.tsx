@@ -57,8 +57,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({
             <Link href="/" className="group flex items-center gap-3">
               <div className="relative">
                 <Image
-                  src="/gotius.png"
-                  alt="Gotius Logo"
+                  src="/icon.png"
+                  alt="Goatius Logo"
                   width={40}
                   height={40}
                   className="shadow-glow group-hover:shadow-elegant rounded-full transition-smooth"

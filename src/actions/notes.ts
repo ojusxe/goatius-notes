@@ -14,6 +14,7 @@ export const createNoteAction = async (noteId: string) => {
       data: {
         id: noteId,
         authorId: user.id,
+        title: "",
         text: "",
       },
     });
@@ -32,6 +33,22 @@ export const updateNoteAction = async (noteId: string, text: string) => {
     await prisma.note.update({
       where: { id: noteId },
       data: { text },
+    });
+
+    return { errorMessage: null };
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export const updateNoteTitleAction = async (noteId: string, title: string) => {
+  try {
+    const user = await getUser();
+    if (!user) throw new Error("You must be logged in to update a note");
+
+    await prisma.note.update({
+      where: { id: noteId },
+      data: { title },
     });
 
     return { errorMessage: null };
@@ -128,6 +145,7 @@ export const createNewNoteAction = async () => {
       data: {
         id: newNoteId,
         authorId: user.id,
+        title: "",
         text: "",
       },
     });
@@ -148,6 +166,7 @@ export const getAllNotesAction = async () => {
       orderBy: { updatedAt: 'desc' },
       select: {
         id: true,
+        title: true,
         text: true,
         createdAt: true,
         updatedAt: true,

@@ -138,8 +138,8 @@ function SimpleAppLayout({ notes, user, currentNoteId, children }: SimpleAppLayo
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative">
                 <Image
-                  src="/gotius.png"
-                  alt="Gotius Logo"
+                  src="/icon.png"
+                  alt="Goatius Logo"
                   width={40}
                   height={40}
                   className="rounded-full transition-all duration-300"

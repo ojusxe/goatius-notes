@@ -16,6 +16,7 @@ async function HomePage({ searchParams }: Props) {
     : noteIdParam || "";
 
   let noteText = "";
+  let noteTitle = "";
   let notes: any[] = [];
 
   if (user) {
@@ -23,12 +24,13 @@ async function HomePage({ searchParams }: Props) {
     const { notes: userNotes } = await getAllNotesAction();
     notes = userNotes || [];
 
-    // Get current note text
+    // Get current note text and title
     if (noteId) {
       const note = await prisma.note.findUnique({
         where: { id: noteId, authorId: user?.id },
       });
       noteText = note?.text || "";
+      noteTitle = note?.title || "";
     }
   }
 
@@ -38,6 +40,7 @@ async function HomePage({ searchParams }: Props) {
       initialUser={user} 
       initialNoteId={noteId}
       initialNoteText={noteText}
+      initialNoteTitle={noteTitle}
     />
   );
 }
